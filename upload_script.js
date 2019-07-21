@@ -15,11 +15,7 @@
     var upload_path = "qr_code/";
 
     http.createServer(function (req, res) {
-        if (req.url == '/uploadform') {
-            res.writeHead(200);
-            res.write(upload_html);
-            return res.end();
-        } else if (req.url == '/fileupload') {
+        if (req.url === '/fileupload') {
             var form = new formidable.IncomingForm();
             form.parse(req, function (err, fields, files) {
                 // oldpath : temporary folder to which file is saved to
@@ -33,44 +29,47 @@
                     res.end();
                 });
             });
-        } else if(req.url == '/start') {
+        } else if(req.url === '/start') {
             res.writeHead(200);
             res.write(login_html);
             return res.end();
-        } else if(req.url == '/auth') {
+        } else if(req.url === '/auth') {
             var qs = require('querystring');
 
-            if (req.method == 'POST') {
-                var body = '';
+            var username = '';
+            var password = '';
 
-                req.on('data', function (data) {
-                    body += data;
+            var body = '';
 
-                    // Too much POST data, kill the connection!
-                    // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
-                    if (body.length > 1e6)
-                        req.connection.destroy();
-                });
+            req.on('data', function (data) {
+                body += data;
 
-                req.on('end', function () {
-                    var post = qs.parse(body);
-                    // use post['blah'], etc.
-                    console.log(post.username);
-                    console.log(post.password);
-                });
-            }
+                // Too much POST data, kill the connection!
+                // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+                if (body.length > 1e6)
+                    req.connection.destroy();
+            });
+
+
+
+            req.on('end', function () {
+                var post = qs.parse(body);
+                // use post['blah'], etc.
+                username = post.username;
+                password = post.password;
+
+                if(username === 'abc' && password === 'pass') {
+                    res.writeHead(200);
+                    res.write(upload_html);
+                    return res.end();
+                } else {
+                    res.writeHead(200);
+                    res.write("<script>alert('invalid username or password')</script>");
+                    res.write(login_html);
+                    return res.end();
+                }
+            });
+
         }
     }).listen(8086);
-
-    function qs(selector) {
-        return document.querySelector(selector);
-    }
-
-    function id(idName) {
-        return document.getElementById(idName);
-    }
-
-    function qsa(selector) {
-        return document.querySelectorAll(selector);
-    }
 })();
