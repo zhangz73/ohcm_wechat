@@ -2,6 +2,10 @@
 (function() {
     var jsdom = require("jsdom");
     var JSDOM = jsdom.JSDOM;
+    var FormData = require("form-data")
+    var fetch = require("node-fetch");
+    var request = require("request")
+
     global.document = new JSDOM("login.html").window.document;
 
 
@@ -13,21 +17,37 @@
     var login_html = fs.readFileSync("login.html");
 
     var upload_path = "qr_code/";
+    var url = "https://students.washington.edu/zhangz73/nodejs_test/add.php"
 
     http.createServer(function (req, res) {
         if (req.url === '/fileupload') {
             var form = new formidable.IncomingForm();
             form.parse(req, function (err, fields, files) {
-                // oldpath : temporary folder to which file is saved to
-                var oldpath = files.qr_code.path;
-                var newpath = upload_path + files.qr_code.name;
-                // copy the file to a new location
-                fs.rename(oldpath, newpath, function (err) {
-                    if (err) throw err;
-                    // you may respond with another html page
-                    res.write('File uploaded and moved!');
-                    res.end();
-                });
+                    // oldpath : temporary folder to which file is saved to
+                    if(Object.keys(fields).length !== 0){
+                        var oldpath = files.qr_code.path;
+                        var newpath = upload_path + files.qr_code.name;
+
+                        var formData = {
+                            course: fields["course"],
+                            qr_code: fs.createReadStream(oldpath)
+                        }
+
+                        request.post({url: url, formData: formData},
+                            function optionalCallback(err, httpResponse, body){
+                                if(err){
+                                    return console.error("upload failed:", err);
+                                }
+                                res.write("<script>alert('file uploaded!')</script>");
+                                res.write(upload_html);
+                                res.end();
+                        });
+
+                    } else {
+                        res.writeHead(200);
+                        res.write(login_html);
+                        return res.end();
+                    }
             });
         } else if(req.url === '/start') {
             res.writeHead(200);
