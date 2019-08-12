@@ -1,0 +1,39 @@
+/* pages/index/signup_downloaders.wxss */
+.login-form {
+  width: 300px;
+  margin: 0 auto;
+  font-family: Tahoma, Geneva, sans-serif;
+}
+.login-form view {
+  text-align: center;
+  color: #7F27B4;
+  font-size: 24px;
+  padding: 20px 0 20px 0;
+}
+
+.login-form input [type="text"] {
+  width: 100%;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  box-sizing:border-box;
+}
+
+.login-form p {
+  width: 40%;
+}
+
+.login-form input[type="password"]{
+  width: 100%;
+  border: 1px solid #dddddd;
+  margin-bottom: 15px;
+  box-sizing:border-box;
+}
+.login-form button{
+  width: 100%;
+  background-color: #7F27B4;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: bold;
+  color: #ffffff;
+}

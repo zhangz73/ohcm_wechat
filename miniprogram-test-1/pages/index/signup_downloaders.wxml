@@ -1,0 +1,15 @@
+<view class="login-form">
+			<view>二维码获取端注册</view>
+			<form action="auth" method="POST" bindsubmit='bindViewTap'>
+      <div style="display:flex">
+				<input type="text" name="username" placeholder="UW NETID" id="username" bindinput="getUsername" required /><p>@uw.edu</p>
+      </div>
+				<input type="password" name="password" placeholder="Password" bindinput="getPassword" id="password" required />
+      <input type="password" name="password2" placeholder="Re-enter Password" id="password2" bindinput="getPassword2" required />
+
+    <div style="display:flex">
+      <input type="text" name="validation_code" placeholder="验证码" id="validation_code" bindinput='getCode' required /><button bindtap='sendEmail'>获取二维码</button>
+    </div>
+			<button form-type="submit">Submit</button>
+			</form>
+		</view>

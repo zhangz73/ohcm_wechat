@@ -1,0 +1,8 @@
+<view class="login-form">
+			<view>二维码上传端Login</view>
+			<form action="auth" method="POST" bindsubmit='bindViewTap'>
+				<input type="text" name="username" placeholder="Username" id="username" required />
+				<input type="password" name="password" placeholder="Password" id="password" required />
+				<button form-type="submit">Submit</button>
+			</form>
+		</view>

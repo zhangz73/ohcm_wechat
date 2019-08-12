@@ -1,0 +1,14 @@
+<view class="login-form">
+			<view>二维码获取端Login</view>
+      <view>(第一次使用需要注册)</view>
+			<form action="auth" method="POST" bindsubmit='bindViewTap'>
+      <div style="display:flex">
+				<input type="text" name="username" placeholder="UW NETID" id="username" required /><p>@uw.edu</p>
+      </div>
+				<input type="password" name="password" placeholder="Password" id="password" required />
+      <div style="display:flex">
+        <button bindtap='signup'>Sign Up</button>
+				<button form-type="submit">Submit</button>
+      </div>
+			</form>
+		</view>

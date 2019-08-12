@@ -1,0 +1,10 @@
+<form action="fileupload" method="post" enctype="multipart/form-data" bindsubmit='submit2server' class="uploading-page">
+        <view>Course number: (eg. math 126)</view>
+        <input type="text" name="course" id="course" />
+        <view class="qr_code" bindtap="choose">二维码:</view>
+        <image class="image" src="{{imageUrl}}" mode="aspectFit"></image>
+        <br></br>
+
+        <button form-type="submit">提交二维码</button>
+</form>
+<button bindtap='goBack'>返回首页</button>
