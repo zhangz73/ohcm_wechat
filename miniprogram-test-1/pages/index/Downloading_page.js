@@ -20,10 +20,11 @@ Page({
     var course = e.detail.value.course;
     var that = this
     wx.request({
-      url: 'https://students.washington.edu/zhangz73/nodejs_test/download_logs.php',
+      url: 'https://students.washington.edu/zhangz73/proxy.php',
       data: util.json2Form({
         'course': course,
-        'username': this.data.username
+        'username': this.data.username,
+        'target': 'https://students.washington.edu/zhangz73/nodejs_test/download_logs.php'
       }),
       method: 'POST',
       header: {

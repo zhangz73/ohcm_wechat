@@ -27,10 +27,11 @@ Page({
     var username = e.detail.value.username;
     var password = e.detail.value.password;
     wx.request({
-      url: 'https://students.washington.edu/zhangz73/nodejs_test/download.php',
+      url: 'https://students.washington.edu/zhangz73/proxy.php',
       data: util.json2Form({
         'user': username,
-        'password': password
+        'password': password,
+        'target': 'https://students.washington.edu/zhangz73/nodejs_test/download.php'
       }),
       method: 'POST',
       header: {

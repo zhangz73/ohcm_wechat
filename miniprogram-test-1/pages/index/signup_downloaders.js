@@ -52,10 +52,11 @@ Page({
       })
     } else{
       wx.request({
-        url: 'https://students.washington.edu/zhangz73/nodejs_test/signup.php',
+        url: 'https://students.washington.edu/zhangz73/proxy.php',
         data: util.json2Form({
           'email': email,
-          'password': password
+          'password': password,
+          'target': 'https://students.washington.edu/zhangz73/nodejs_test/signup.php'
         }),
         method: 'POST',
         header: {
@@ -85,10 +86,11 @@ Page({
     var util = require('../../utils/util.js')
 
     wx.request({
-      url: 'https://students.washington.edu/zhangz73/nodejs_test/sendEmail.php',
+      url: 'https://students.washington.edu/zhangz73/proxy.php',
       data: util.json2Form({
         'user': this.data.email,
-        'code': num
+        'code': num,
+        'target': 'https://students.washington.edu/zhangz73/nodejs_test/sendEmail.php'
       }),
       method: 'POST',
       header: {
