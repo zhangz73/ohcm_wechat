@@ -13,8 +13,11 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      "username": wx.getStorageSync("upload_usr")
+      "username": wx.getStorageSync("upload_usr"),
+      "imageUrl": '',
+      "tempFilePaths": ''
     })
+    wx.setStorage({ key: "qr_code", data: '' })
   },
 
   goBack: function(){
@@ -55,26 +58,34 @@ Page({
     var course = e.detail.value.course;
     console.log(course)
     var qr_code = wx.getStorageSync('qr_code')
-    wx.uploadFile({
-      url: 'https://students.washington.edu/zhangz73/proxy.php',
-      filePath: qr_code,
-      name: 'qr_code',
-      formData: {
-        'course': course,
-        "username": this.data.username,
-        'fname':'qr_code',
-        'target': 'https://students.washington.edu/zhangz73/nodejs_test/add.php'
-      },
-      success: function(res) {
-        console.log(res)
-        wx.reLaunch({
-          url: 'Uploading_page'
-        })
-        wx.showToast({
-          title: '二维码已成功提交'
-        })
-      }
-    })
+
+    if(course === '' || qr_code === ''){
+      wx.showModal({
+        title: '提示',
+        content: '课号或二维码为空',
+      })
+    } else{
+      wx.uploadFile({
+        url: 'https://students.washington.edu/zhangz73/proxy.php',
+        filePath: qr_code,
+        name: 'qr_code',
+        formData: {
+          'course': course,
+          "username": this.data.username,
+          'fname':'qr_code',
+          'target': 'https://students.washington.edu/zhangz73/nodejs_test/add.php'
+        },
+        success: function(res) {
+          console.log(res)
+          wx.reLaunch({
+            url: 'Uploading_page'
+          })
+          wx.showToast({
+            title: '二维码已成功提交'
+          })
+        }
+      })
+    }
   },
 
 

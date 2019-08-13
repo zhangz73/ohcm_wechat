@@ -12,7 +12,45 @@ Page({
    * Lifecycle function--Called when page load
    */
   onLoad: function (options) {
+    var timestamp = Date.parse(new Date());
+    var expiration = timestamp + 60000 * 60 * 8;
+    var data_expiration = wx.getStorageSync("data_expiration");
+    if (data_expiration) {
+      if (timestamp > data_expiration) {
+        var upload_usr = wx.getStorageSync("upload_usr")
+        var upload_pss = wx.getStorageSync("upload_pss")
 
+        wx.clearStorageSync()
+        wx.setStorageSync("data_expiration", expiration)
+        wx.setStorageSync("upload_usr", upload_usr)
+        wx.setStorageSync("upload_pss", upload_pss)
+      }
+    } else {
+      wx.setStorageSync("data_expiration", expiration)
+    }
+
+    var util = require('../../utils/util.js')
+    var username = wx.getStorageSync("download_usr");
+    var password = wx.getStorageSync("download_pss");
+    wx.request({
+      url: 'https://students.washington.edu/zhangz73/proxy.php',
+      data: util.json2Form({
+        'user': username,
+        'password': password,
+        'target': 'https://students.washington.edu/zhangz73/nodejs_test/download.php'
+      }),
+      method: 'POST',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      success: function (res) {
+        if (res.data.cnt == 1) {
+          wx.navigateTo({
+            url: 'Downloading_page'
+          })
+        }
+      }
+    })
   },
 
   signup: function(){
@@ -40,12 +78,15 @@ Page({
       success: function (res) {
         if (res.data.cnt == 1) {
           wx.setStorageSync("download_usr", username)
+          wx.setStorageSync("download_pss", password)
+
           wx.navigateTo({
             url: 'Downloading_page'
           })
         } else {
-          wx.showToast({
-            title: '用户名或密码错误',
+          wx.showModal({
+            title: '提示',
+            content: '用户名或密码错误',
           })
         }
       }
