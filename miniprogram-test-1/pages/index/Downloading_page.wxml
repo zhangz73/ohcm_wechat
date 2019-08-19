@@ -1,6 +1,8 @@
-<form action="fileupload" method="post" enctype="multipart/form-data" bindsubmit='submit2server' class="uploading-page">
-        <view>Course number: (eg. math 126)</view>
-        <input type="text" name="course" id="course" />
-        <button form-type="submit">获取二维码</button>
-</form>
-<image class="image" src="{{imageURL}}" bindtap='preview' mode="aspectFit"></image>
+<view class="downloading-page">
+  <form action="fileupload" method="post" enctype="multipart/form-data" bindsubmit='submit2server' class="uploading-page">
+    <view>Course number: (eg. math 126)</view>
+    <input type="text" name="course" id="course" />
+    <button form-type="submit">获取二维码</button>
+  </form>
+  <image class="image" src="{{imageURL}}" bindtap='preview' mode="aspectFit"></image>
+</view>
